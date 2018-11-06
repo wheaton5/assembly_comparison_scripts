@@ -2,14 +2,14 @@ import pyfasta
 
 fasta = pyfasta.Fasta("/lustre/scratch118/malaria/team222/hh5/ref/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP3.fa")
 
-with open("n_s_bed.bed",'w') as bed:
+with open("../n_s_bed.bed",'w') as bed:
     for key in fasta.keys():
         chrom = fasta[key]
         print key
         start_index = 0
         index = 0
         #for index,base in enumerate(chrom):
-        while True:
+        while index < len(chrom):
             try:                
                 start_index = index
                 while chrom[index] == 'n' or chrom[index] == 'N':
@@ -21,3 +21,6 @@ with open("n_s_bed.bed",'w') as bed:
                     index += 1
             except:
                 break
+        if index > start_index and (chrom[index-1] == 'n' or chrom[index-1] == 'N'):
+            bed.write(key+"\t"+str(start_index)+"\t"+str(index)+"\n")
+            

@@ -6,7 +6,7 @@ for chrom in fasta.keys():
     print chrom
     coverages[chrom] = np.zeros(len(fasta[chrom]))
 
-with open("covered.bed") as bed:
+with open("../covered.bed") as bed:
     for line in bed:
         tokens = line.strip().split()
         chrom = tokens[0]
@@ -17,7 +17,7 @@ with open("covered.bed") as bed:
 
 
 
-with open("coverage_curated_regions.bed",'w') as bed:
+with open("../coverage_curated_regions.bed",'w') as bed:
     for chrom in coverages.keys():
         covs = coverages[chrom]
         start = 0
@@ -40,11 +40,13 @@ with open("coverage_curated_regions.bed",'w') as bed:
 #    for x in coverage_list:
 #        if x < 10:
 #            counts[x] += 1
-totals = {'2L':48500000,'2R':60100000,'3L':40700000,'3R':52200000,'X':23400000,'UNKN':27200000}
-
+totals = {'2L':48003585,'2R':60129301,'3L':40718283,'3R':52277792,'X':23387510,'UNKN':27270000}
+all_total = np.sum([x for c,x in totals.iteritems() if c != 'UNKN'])
 total_counts = {}
 for chrom, coverage_list in coverages.iteritems():
     if not chrom in totals:
+        continue
+    if chrom == "UNKN":
         continue
     unique, counts = np.unique(coverage_list, return_counts=True)
     #print unique
@@ -69,10 +71,12 @@ for chrom, coverage_list in coverages.iteritems():
 print total_counts
 covered = 0
 overcovered = 0
+total = 0
 for x, y in total_counts.iteritems():
     if x > 0:
         covered += y
     if x > 1:
         overcovered += y
-print covered
-print overcovered
+    total += y
+print covered/float(all_total)
+print overcovered/float(all_total)

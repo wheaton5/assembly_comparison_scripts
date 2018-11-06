@@ -1,19 +1,19 @@
 import pysam
 
-bam = pysam.AlignmentFile("curated_alignments.bam")
+bam = pysam.AlignmentFile("../curated_alignments.bam")
 
 supplemental_lengths = []
 supplemental_distances = []
 primary_lengths = []
 unmapped_reads = 0
 unmapped_bases = 0
-with open("covered.bed",'w') as bed:
+with open("../covered.bed",'w') as bed:
     for read in bam:
         chrom = read.reference_name
         pos = read.pos
         start = read.reference_start
         end = read.reference_end
-        bed.write("\t".join([chrom,str(start),str(end)])+"\n")
+        bed.write("\t".join([chrom,str(start),str(end),str(end-start)])+"\n")
         if read.is_supplementary or read.is_secondary:
             supplemental_lengths.append(end-start)
         else:
