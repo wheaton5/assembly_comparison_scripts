@@ -6,8 +6,8 @@ read_positions = {}
 read_chroms = {}
 read_query_lengths = {}
 contig_lengths = {}
-assembly = "curated_assembly.fasta"
-assembly_alignments = "curated_alignments.bam"
+assembly = "../Anoph_coluzzii_FALCON_Unzip_reseq_180829_curated_primary.clean.noBact.wMT.split15F.sort.fasta"
+assembly_alignments = "../assembly_to_ref_final.bam"
 with open(assembly) as ass:
     current = 0
     name = None
@@ -23,7 +23,7 @@ with open(assembly) as ass:
         contig_lengths[name] = current
 
 tid_to_chrom = {}
-with open("dotplot.csv",'w') as dotplot:
+with open("../dotplot_final.csv",'w') as dotplot:
     dotplot.write("chrom,ref_pos_start,ref_pos_end,read_pos_start,read_pos_end,read_name,direction,primary_chrom,primary_chrom_offset\n")
     read_directions = {}
     for bamname in [assembly_alignments]:
@@ -63,24 +63,30 @@ with open("dotplot.csv",'w') as dotplot:
                     secondchrom = max_chrom
                     maxlen = alen
                     max_chrom = tid
-            if tid_to_chrom[max_chrom] == "UNKN" and not secondchrom == None:
+            if tid_to_chrom[max_chrom] == "UNKN" and (not secondchrom == None) and secondbest > 10000:
                 max_chrom = secondchrom
             major_chrom[readname] = max_chrom
             majorityreport.write("\t".join([readname,tid_to_chrom[max_chrom]])+"\n")
     average_position = {}
+    
     denoms = {}
     for (readname, tid) in major_chrom.iteritems():
         denoms.setdefault(readname,0.0)
         #if tid_to_chrom[tid] == "UNKN":
         #    continue
+        positions = []
         for (pos, length) in read_offsets[readname][tid]:
-            denoms[readname] += float(length)
-    for (readname, tid) in major_chrom.iteritems():
+            for position in range(int(pos), int(pos+length)):
+                positions.append(position)
+            #denoms[readname] += float(length)
         average_position.setdefault(tid,{})
-        average_position[tid].setdefault(readname,0)
-        denoms.setdefault(readname,0.0)
-        for (pos, length) in read_offsets[readname][tid]:
-            average_position[tid][readname] += pos/denoms[readname]*length
+        average_position[tid][readname] = np.median(positions)
+    #for (readname, tid) in major_chrom.iteritems():
+    #    average_position.setdefault(tid,{})
+    #    average_position[tid].setdefault(readname,0)
+    #    denoms.setdefault(readname,0.0)
+    #    for (pos, length) in read_offsets[readname][tid]:
+    #        average_position[tid][readname] += pos/denoms[readname]*length
 
     contig_order = {}
     for chrom in average_position.keys():
@@ -142,11 +148,15 @@ for read, tid in major_chrom.iteritems():
     chroms.add(chrom)
     #print chrom
     chrom_contig_lengths.setdefault(chrom,[])
+    if read not in contig_lengths:
+        continue
+    print contig_lengths[read]
     chrom_contig_lengths[chrom].append(contig_lengths[read])
 for chrom in chroms:
     lengths = sorted(chrom_contig_lengths[chrom], reverse=True)
     total_length = np.sum(lengths)
     print "total length of contigs for chrom "+chrom +" is  "+str(total_length)
+    print "number of contigs for chrom "+chrom+" is "+str(len(lengths))
     so_far = 0
     for contig_length in lengths:
         so_far += contig_length
