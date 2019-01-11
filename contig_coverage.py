@@ -1,5 +1,6 @@
 import pysam
 
+
 bam = pysam.AlignmentFile("../curated_alignments.bam")
 
 supplemental_lengths = []

@@ -1,5 +1,6 @@
 import pysam
 
+
 #bam = pysam.AlignmentFile("m54119_180807_160930.subreads.bam",'rb',check_header=False, check_sq=False)
 import gzip
 

@@ -1,6 +1,6 @@
 sequence = []
 import numpy as np
-with open("curated_assembly.fasta") as anoph:
+with open("../Anoph_coluzzii_FALCON_Unzip_reseq_180829_curated_primary.clean.noBact.wMT.split15F.sort.fasta") as anoph:
     current = 0
     for line in anoph:
 	if line.startswith(">"):

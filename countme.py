@@ -1,6 +1,7 @@
 total = 0
+
 chrom_lengths = {}
-with open("../../../../ref/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP3.fa") as ass:
+with open("../../../../../ref/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP3.fa") as ass:
     #with open("Anoph_coluzzii_FALCON_Unzip_reseq_180829_primaryContigs.fasta") as ass:
     #with open("curated.artefacts.fasta") as ass:
     #with open("curated_assembly.fasta") as ass:

@@ -1,4 +1,5 @@
 import numpy as np
+
 coverages = np.zeros(2000)
 
 with open("coverage2.tsv") as cov:

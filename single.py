@@ -1,5 +1,6 @@
 import pyfasta
 
+
 fasta = pyfasta.Fasta("/lustre/scratch118/malaria/team222/hh5/projects/analysis/assembly/anoph/Anoph_coluzzii_FALCON_Unzip_reseq_180829_primaryContigs.fasta")
 keys_by_size = {key:len(fasta[key]) for key in fasta.keys()}
 keys_by_size = sorted(keys_by_size.items(), key=lambda kv: -kv[1])

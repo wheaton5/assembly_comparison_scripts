@@ -1,4 +1,5 @@
 coverages = {}
+
 import pyfasta
 import numpy as np
 fasta = pyfasta.Fasta("/lustre/scratch118/malaria/team222/hh5/ref/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP3.fa")

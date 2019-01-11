@@ -1,5 +1,6 @@
 
 
+
 p = ggplot(subset(dotplot,primary_chrom=="X" & 
                     (read_name == "000022F_arrow_arrow" |
                        read_name == "000070F_arrow_arrow" |

@@ -1,5 +1,6 @@
 import pysam
 
+
 bam = pysam.AlignmentFile("gene_assembly_alignments.bam")
 
 gene_to_alignments = {}

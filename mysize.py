@@ -1,4 +1,5 @@
 import pysam
+
 files = ["m54119_180806_194558.subreads.bam",
 "m54119_180807_160930.subreads.bam",
 "m54119_180808_103633.subreads.bam"]

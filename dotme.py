@@ -1,4 +1,5 @@
 import pysam
+
 import numpy as np
 
 read_offsets = {}
@@ -24,7 +25,7 @@ with open(assembly) as ass:
 
 tid_to_chrom = {}
 with open("../dotplot_final.csv",'w') as dotplot:
-    dotplot.write("chrom,ref_pos_start,ref_pos_end,read_pos_start,read_pos_end,read_name,direction,primary_chrom,primary_chrom_offset\n")
+    dotplot.write("chrom,ref_pos_start,ref_pos_end,read_pos_start,read_pos_end,read_name,direction,primary_chrom,primary_chrom_offset,contig_length\n")
     read_directions = {}
     for bamname in [assembly_alignments]:
         bam = pysam.AlignmentFile(bamname)
@@ -138,7 +139,7 @@ with open("../dotplot_final.csv",'w') as dotplot:
             read_dir = "forward"
             if (read.is_reverse and overall_direction) or ((not read.is_reverse) and (not overall_direction)):
                 read_dir = "reverse"
-            dotplot.write(",".join([bam.references[read.tid], str(ref_start), str(ref_end), str(read_start), str(read_end), read.qname, read_dir, bam.references[major_chrom[read.qname]], str(read_offsets[read.qname])])+"\n")
+            dotplot.write(",".join([bam.references[read.tid], str(ref_start), str(ref_end), str(read_start), str(read_end), read.qname, read_dir, bam.references[major_chrom[read.qname]], str(read_offsets[read.qname]),str(contig_lengths[read.qname])])+"\n")
 
 
 chrom_contig_lengths = {}

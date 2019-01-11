@@ -1,5 +1,6 @@
 import pyfasta
 
+
 fasta = pyfasta.Fasta("/lustre/scratch118/malaria/team222/hh5/ref/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP3.fa")
 
 with open("../n_s_bed.bed",'w') as bed:

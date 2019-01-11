@@ -1,5 +1,6 @@
 
 
+
 import pysam
 
 #bam = pysam.AlignmentFile("all3_sorted.bam")
